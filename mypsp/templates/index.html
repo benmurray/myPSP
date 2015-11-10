@@ -3,8 +3,8 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>myPSP</title>
-    <link href="css/bootstrap.css" rel="stylesheet">
-    <link href="css/main.css" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
   </head>
   <body>
     <div class="container">
@@ -139,10 +139,10 @@
         </form>
       </div>
     </div>
-  <script src="js/jquery.js"></script>
-  <script src="js/moment.js"></script>
-  <script src="js/bootstrap.js"></script>
-  <script src="js/bootstrap-datetimepicker.min.js"></script>
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/moment.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap-datetimepicker.min.js') }}"></script>
 
   <script type="text/javascript">
       $(function () {
