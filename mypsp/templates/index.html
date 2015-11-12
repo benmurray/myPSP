@@ -9,6 +9,17 @@
   <body>
     <div class="container">
       <h1>Welcome to myPSP</h1>
+
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <ul class="flashes">
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+
       <h2>Time Recording Log</h2>
 
       <table class="table table-condensed table-striped table-bordered">
@@ -61,7 +72,7 @@
       </table>
 
       <div class="row">
-        <form class="col-md-6 form-horizontal time-recording-form">
+        <form class="col-md-6 form-horizontal time-recording-form" action="/" method="post">
           <fieldset>
             <legend>Record Time</legend>
             <div class="form-group">
