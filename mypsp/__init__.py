@@ -1,4 +1,5 @@
 from flask import Flask, flash, render_template, request
+from flask.ext.script import Manager
 from flask.ext.wtf import Form
 from wtforms import DateField, DateTimeField, StringField, TextAreaField, \
     RadioField, SubmitField
@@ -6,6 +7,7 @@ from wtforms.validators import Required
 
 
 app = Flask(__name__)
+manager = Manager(app)
 
 
 class RecordTimeForm(Form):
@@ -32,4 +34,4 @@ if __name__ == "__main__":
     app.debug = True
     app.secret_key = "WHAT DO you mean"
     app.config['SECRET_KEY'] = 'Thear cean be only won'
-    app.run()
+    manager.run()
