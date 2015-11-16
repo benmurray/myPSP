@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>myPSP</title>
+    <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <h1>Welcome to myPSP</h1>
+
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          <ul class="flashes">
+            {% for message in messages %}
+              <li>{{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      {% endwith %}
+
+      <h2>Time Recording Log</h2>
+
+      <table class="table table-condensed table-striped table-bordered">
+        <thead>
+          <th>Date</th>
+          <th>Start</th>
+          <th>Stop</th>
+          <th>Interuption Time</th>
+          <th>Delta Time</th>
+          <th>Activity</th>
+          <th>Comments</th>
+          <th>Complete</th>
+          <th>Units</th>
+        </thead>
+        <tbody>
+          <tr>
+            <td>9/9</td>
+            <td>9:00</td>
+            <td>9:50</td>
+            <td>0</td>
+            <td>50</td>
+            <td>Class</td>
+            <td>Lecture</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>9/10</td>
+            <td>4:00</td>
+            <td>6:50</td>
+            <td>20</td>
+            <td>150</td>
+            <td>Prog</td>
+            <td>Assignment 1</td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr>
+            <td>9/11</td>
+            <td>9:00</td>
+            <td>9:50</td>
+            <td>0</td>
+            <td>50</td>
+            <td>Class</td>
+            <td>Lecture</td>
+            <td></td>
+            <td>{{ activity }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="row">
+          <!--
+        <form class="col-md-6 form-horizontal time-recording-form" method="post">
+          <fieldset>
+            <legend>Record Time</legend>
+            <div class="form-group">
+              <label for="inputDate" class="col-lg-2 control-label">Date</label>
+              <div id="dateDatePicker" class="input-group date col-lg-9">
+                <input class="form-control" id="inputDate" placeholder="" type="text">
+                <span class="input-group-addon">
+                  <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputStartTime" class="col-lg-2 control-label">Start</label>
+              <div class="col-lg-4">
+                <input class="form-control" id="inputStartTime" placeholder="" type="text">
+              </div>
+              <label for="inputStopTime" class="col-lg-2 control-label">Stop</label>
+              <div class="col-lg-4">
+                <input class="form-control" id="inputStopTime" placeholder="" type="text">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputInteruptionTime" class="col-lg-2 control-label">Interuption</label>
+              <div class="col-lg-4">
+                <input class="form-control" id="inputInteruptionTime" placeholder="" type="text">
+              </div>
+              <label for="inputDeltaTime" class="col-lg-2 control-label">Delta</label>
+              <div class="col-lg-4">
+                <input class="form-control" id="inputDeltaTime" placeholder="" type="text">
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="inputActivity" class="col-lg-2 control-label">Activity</label>
+              <div class="col-lg-10">
+                  <input class="form-control" id="inputActivity" placeholder="" type="text">
+                {{ form.activity(id='activity', class='form-control') }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="comment" class="col-lg-2 control-label">Comments</label>
+              <div class="col-lg-10">
+                <textarea class="form-control" rows="3" id="comments"></textarea>
+                <span class="help-block">A longer block of help text that breaks onto a new line and may extend beyond one line.</span>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="col-lg-2 control-label">Complete</label>
+              <div class="col-lg-10">
+                <div class="radio">
+                  <label>
+                    <input name="optionsComplete" id="optionsCompleteNA" value="n/a" checked="" type="radio">
+                    Not Applicabale
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input name="optionsComplete" id="optionsCompleteYes" value="yes" type="radio">
+                    Yes
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input name="optionsComplete" id="optionsCompleteNo" value="no" type="radio">
+                    No
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group">
+              <div class="col-lg-4 col-lg-offset-8">
+                <button type="reset" class="btn btn-default">Cancel</button>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </div>
+            </div>
+          </fieldset>
+        </form>
+        -->
+      </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/jquery.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/moment.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap-datetimepicker.min.js') }}"></script>
+
+  <script type="text/javascript">
+      $(function () {
+          $('#dateDatePicker').datetimepicker({format: 'L'});
+          $('#inputStartTime').datetimepicker({format: 'LT'});
+          $('#inputStopTime').datetimepicker({format: 'LT'});
+      });
+  </script>
+  </body>
+</html>
