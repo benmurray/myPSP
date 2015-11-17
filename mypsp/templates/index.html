@@ -19,38 +19,29 @@
           <th>Units</th>
         </thead>
         <tbody>
+          {% for record in records %}
           <tr>
-            <td>9/9</td>
-            <td>9:00</td>
-            <td>9:50</td>
-            <td>0</td>
-            <td>50</td>
-            <td>Class</td>
-            <td>Lecture</td>
-            <td></td>
-            <td></td>
+            <td>{{ record.record_date }}</td>
+            <td>{{ record.start_date }}</td>
+            <td>{{ record.end_date }}</td>
+            <td>{{ record.interupption }}</td>
+            <td>{{ record.delta_time }}</td>
+            <td>{{ record.activity }}</td>
+            <td>{{ record.comments }}</td>
+            <td>{{ record.complete }}</td>
+            <td>{{ record.units }}</td>
           </tr>
+          {% endfor %}
           <tr>
-            <td>9/10</td>
-            <td>4:00</td>
-            <td>6:50</td>
-            <td>20</td>
-            <td>150</td>
-            <td>Prog</td>
-            <td>Assignment 1</td>
+            <td>&nbsp;</td>
             <td></td>
             <td></td>
-          </tr>
-          <tr>
-            <td>9/11</td>
-            <td>9:00</td>
-            <td>9:50</td>
-            <td>0</td>
-            <td>50</td>
-            <td>Class</td>
-            <td>Lecture</td>
             <td></td>
-            <td>{{ activity }}</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
           </tr>
         </tbody>
     </table>

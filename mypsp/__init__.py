@@ -62,18 +62,18 @@ class RecordTimeForm(Form):
 
 
 def make_shell_context():
-    return dict(app=app)
+    return dict(app=app, db=db, TimeRecord=TimeRecord)
 manager.add_command("shell", Shell(make_context=make_shell_context))
 manager.add_command("db", MigrateCommand)
 
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
-    activity = ""
+    records = TimeRecord.query.all()
     form = RecordTimeForm()
     if form.validate_on_submit():
         activity = form.activity.data
-    return render_template('index.html', form=form, activity=activity)
+    return render_template('index.html', form=form, records=records)
 
 
 if __name__ == "__main__":
