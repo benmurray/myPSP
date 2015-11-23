@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template
+from flask import Flask, redirect, url_for, render_template
 from flask.ext.script import Manager, Shell
 from flask.ext.migrate import Migrate, MigrateCommand
 from flask.ext.bootstrap import Bootstrap
@@ -7,7 +7,7 @@ from flask.ext.moment import Moment
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.wtf import Form
 from wtforms import DateField, DateTimeField, StringField, TextAreaField, \
-    RadioField, SubmitField
+    BooleanField, SubmitField
 from wtforms.validators import Required
 
 
@@ -23,6 +23,7 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
     os.path.join(basedir, 'data.sqlite')
 # enable automatic commits of database changes at the end of each request
 app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
 manager = Manager(app)
 bootstrap = Bootstrap(app)
@@ -34,10 +35,10 @@ migrate = Migrate(app, db)
 class TimeRecord(db.Model):
     __tablename__ = 'records'
     id = db.Column(db.Integer, primary_key=True)
-    record_date = db.Column(db.Date)
-    start_date = db.Column(db.Time)
-    end_date = db.Column(db.Time)
-    interupption = db.Column(db.Integer)  # in minutes
+    record_date = db.Column(db.DateTime)
+    start_date = db.Column(db.DateTime)
+    end_date = db.Column(db.DateTime)
+    interruption = db.Column(db.Integer)  # in minutes
     delta_time = db.Column(db.Integer)  # in minutes
     activity = db.Column(db.String(128))
     comments = db.Column(db.String(256))
@@ -56,8 +57,7 @@ class RecordTimeForm(Form):
     delta = StringField(u'Delta')
     activity = StringField(u'Activity')
     comments = TextAreaField(u'Comments')
-    complete = RadioField(u'Complete', choices=[(False, 'N/A'), (True, 'Yes'),
-                                                (False, 'No')])
+    complete = BooleanField(u'Complete')
     submit = SubmitField('Submit')
 
 
@@ -72,7 +72,17 @@ def index():
     records = TimeRecord.query.all()
     form = RecordTimeForm()
     if form.validate_on_submit():
-        activity = form.activity.data
+        record = TimeRecord(record_date=form.date.data,
+                            start_date=form.start.data,
+                            end_date=form.stop.data,
+                            interruption=form.interruption.data,
+                            delta_time=form.delta.data,
+                            activity=form.activity.data,
+                            comments=form.comments.data,
+                            complete=form.complete.data)
+        db.session.add(record)
+        return redirect(url_for('.index'))
+    print form.errors
     return render_template('index.html', form=form, records=records)
 
 
