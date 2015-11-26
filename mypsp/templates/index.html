@@ -1,38 +1,40 @@
 {% extends "base.html" %}
-{% import "bootstrap/wtf.html" as wtf %}
 
+{% block head %}
+    <link href="{{ url_for('static', filename='css/bootstrap-datetimepicker.css') }}" rel="stylesheet">
+{% endblock %}
 
 {% block page_content %}
     <div class="page-header">
         <h1>Time Recording Log</h1>
     </div>
-      <table class="table table-condensed table-striped table-bordered">
+    <table class="table table-condensed table-striped table-bordered">
         <thead>
-          <th>Date</th>
-          <th>Start</th>
-          <th>Stop</th>
-          <th>Interuption Time</th>
-          <th>Delta Time</th>
-          <th>Activity</th>
-          <th>Comments</th>
-          <th>Complete</th>
-          <th>Units</th>
+        <th>Date</th>
+        <th>Start</th>
+        <th>Stop</th>
+        <th>Interuption Time</th>
+        <th>Delta Time</th>
+        <th>Activity</th>
+        <th>Comments</th>
+        <th>Complete</th>
+        <th>Units</th>
         </thead>
         <tbody>
-          {% for record in records %}
-          <tr>
-            <td>{{ record.record_date }}</td>
-            <td>{{ record.start_date }}</td>
-            <td>{{ record.end_date }}</td>
-            <td>{{ record.interruption }}</td>
-            <td>{{ record.delta_time }}</td>
-            <td>{{ record.activity }}</td>
-            <td>{{ record.comments }}</td>
-            <td>{{ record.complete }}</td>
-            <td>{{ record.units }}</td>
-          </tr>
-          {% endfor %}
-          <tr>
+        {% for record in records %}
+            <tr>
+                <td>{{ record.record_date }}</td>
+                <td>{{ record.start_date }}</td>
+                <td>{{ record.end_date }}</td>
+                <td>{{ record.interruption }}</td>
+                <td>{{ record.delta_time }}</td>
+                <td>{{ record.activity }}</td>
+                <td>{{ record.comments }}</td>
+                <td>{{ record.complete }}</td>
+                <td>{{ record.units }}</td>
+            </tr>
+        {% endfor %}
+        <tr>
             <td>&nbsp;</td>
             <td></td>
             <td></td>
@@ -42,10 +44,90 @@
             <td></td>
             <td></td>
             <td></td>
-          </tr>
+        </tr>
         </tbody>
     </table>
     <div class="row">
-        {{ wtf.quick_form(form) }}
+        <form class="col-md-6 form-horizontal time-recording-form" method="post">
+            {{ form.csrf_token }}
+            <fieldset>
+                <legend>Record Time</legend>
+                <div class="form-group">
+                    <label for="input_date" class="col-lg-2 control-label">Date</label>
+
+                    <div id="dateDatePicker" class="input-group date col-lg-9">
+                        {{ form.input_date(id='input_date', class='form-control', placeholder='Day of Activity') }}
+                        <span class="input-group-addon">
+                          <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="input_start" class="col-lg-2 control-label">Start</label>
+
+                    <div class="col-lg-4">
+                        {{ form.input_start(id='input_start', class='form-control', placeholder='') }}
+                    </div>
+                    <label for="input_stop" class="col-lg-2 control-label">Stop</label>
+
+                    <div class="col-lg-4">
+                        {{ form.input_stop(id='input_stop', class='form-control', placeholder='') }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="interruption" class="col-lg-2 control-label">Interruption</label>
+
+                    <div class="col-lg-4">
+                        {{ form.interruption(id='interruption', class='form-control', placeholder='') }}
+                    </div>
+                    <label for="delta" class="col-lg-2 control-label">Delta</label>
+
+                    <div class="col-lg-4">
+                        {{ form.delta(id='delta', class='form-control', placeholder='') }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="activity" class="col-lg-2 control-label">Activity</label>
+
+                    <div class="col-lg-10">
+                        {{ form.activity(id='activity', class='form-control', placeholder='Activity') }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="comments" class="col-lg-2 control-label">Comments</label>
+
+                    <div class="col-lg-10">
+                        {{ form.comments(id='comments', class='form-control', rows='4')}}
+                        <span class="help-block">A longer block of help text that breaks onto a new line and may extend beyond one line.</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-lg-2 control-label">Complete</label>
+
+                    <div class="col-lg-1">
+                        {{ form.complete(id='complete', class='form-control') }}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-lg-4 col-lg-offset-8">
+                        <button type="reset" class="btn btn-default">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                </div>
+            </fieldset>
+        </form>
     </div>
 {% endblock %}
+
+{% block scripts %}
+    {{ super() }}
+    <script src="{{ url_for('static', filename='js/bootstrap-datetimepicker.min.js') }}"></script>
+    <script type="text/javascript">
+        $(function () {
+            $('#input_date').datetimepicker({format: 'L'});
+            $('#input_start').datetimepicker({format: 'LT'});
+            $('#input_stop').datetimepicker({format: 'LT'});
+        });
+    </script>
+{% endblock %}
+

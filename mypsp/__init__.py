@@ -2,12 +2,10 @@ import os
 from flask import Flask, redirect, url_for, render_template
 from flask.ext.script import Manager, Shell
 from flask.ext.migrate import Migrate, MigrateCommand
-from flask.ext.bootstrap import Bootstrap
-from flask.ext.moment import Moment
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.wtf import Form
-from wtforms import DateField, DateTimeField, StringField, TextAreaField, \
-    BooleanField, SubmitField
+from wtforms import StringField, TextAreaField, BooleanField, SubmitField
+from wtforms.ext.dateutil.fields import DateTimeField, DateField
 from wtforms.validators import Required
 
 
@@ -18,7 +16,6 @@ app = Flask(__name__)
 app.debug = True
 app.secret_key = "WHAT DO you mean"
 app.config['SECRET_KEY'] = 'Thear cean be only won'
-app.config['BOOTSTRAP_SERVE_LOCAL'] = True
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + \
     os.path.join(basedir, 'data.sqlite')
 # enable automatic commits of database changes at the end of each request
@@ -26,8 +23,6 @@ app.config['SQLALCHEMY_COMMIT_ON_TEARDOWN'] = True
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = True
 
 manager = Manager(app)
-bootstrap = Bootstrap(app)
-moment = Moment(app)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
@@ -50,9 +45,9 @@ class TimeRecord(db.Model):
 
 
 class RecordTimeForm(Form):
-    date = DateField(u'Date', validators=[Required()])
-    start = DateTimeField(u'Start', validators=[Required()])
-    stop = DateTimeField(u'Stop')
+    input_date = DateField(u'Date', validators=[Required()])
+    input_start = DateTimeField(u'Start', validators=[Required()])
+    input_stop = DateTimeField(u'Stop')
     interruption = StringField(u'Interruption')
     delta = StringField(u'Delta')
     activity = StringField(u'Activity')
@@ -72,9 +67,9 @@ def index():
     records = TimeRecord.query.all()
     form = RecordTimeForm()
     if form.validate_on_submit():
-        record = TimeRecord(record_date=form.date.data,
-                            start_date=form.start.data,
-                            end_date=form.stop.data,
+        record = TimeRecord(record_date=form.input_date.data,
+                            start_date=form.input_start.data,
+                            end_date=form.input_stop.data,
                             interruption=form.interruption.data,
                             delta_time=form.delta.data,
                             activity=form.activity.data,
