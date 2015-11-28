@@ -13,7 +13,7 @@
         <th>Date</th>
         <th>Start</th>
         <th>Stop</th>
-        <th>Interuption Time</th>
+        <th>Interruption Time</th>
         <th>Delta Time</th>
         <th>Activity</th>
         <th>Comments</th>
@@ -23,9 +23,9 @@
         <tbody>
         {% for record in records %}
             <tr>
-                <td>{{ record.record_date }}</td>
-                <td>{{ record.start_date }}</td>
-                <td>{{ record.end_date }}</td>
+                <td>{{ record.record_date.strftime('%m/%d/%Y') }}</td>
+                <td>{{ record.start_date.strftime('%H:%M') }}</td>
+                <td>{{ record.end_date.strftime('%H:%M') }}</td>
                 <td>{{ record.interruption }}</td>
                 <td>{{ record.delta_time }}</td>
                 <td>{{ record.activity }}</td>
